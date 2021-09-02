@@ -1,0 +1,60 @@
+﻿@model WebChat.ViewModels.AppUser.AddAppUser
+
+@{
+    ViewData["Title"] = "SignUp";
+}
+
+<p class="h2 text-center">Đăng ký tài khoản</p>
+<hr />
+
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="SignUp" method="post" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (TempData["Success"] != null)
+            {
+                <span class="text-success">@TempData["Success"]</span>
+            }
+            else if (TempData["Error"] != null)
+            {
+                <span class="text-danger">@TempData["Error"]</span>
+            }
+            else if (TempData["IsNotValid"] != null)
+            {
+                <span class="text-danger">@TempData["IsNotValid"]</span>
+            }
+            <div class="form-group">
+                <label asp-for="Username" class="control-label"></label>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="control-label"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FullName" class="control-label"></label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Đăng ký" class="btn btn-primary btn-block" />
+            </div>
+            <div class="form-group">
+                Đã có tài khoản?<a asp-action="Login"> <b>Đăng nhập ngay</b></a>
+                
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @*<partial name="_ValidationScriptsPartial" />*@
+}

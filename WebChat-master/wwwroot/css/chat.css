@@ -1,0 +1,132 @@
+﻿.chat-container {
+    display: flex;
+    height: calc(100vh - 240px);
+}
+
+.user-list-container,
+.chat-box-container {
+    flex: 0 0 auto;
+    border: 1px solid #c0c0c0;
+}
+
+.user-list-container {
+    width: 30%;
+    margin-right: 10px;
+}
+
+.chat-box-container {
+    width: 70%;
+    overflow: hidden;
+}
+
+.user-list-container > .user-item {
+    padding: 12px;
+    border-bottom: 1px dotted black;
+}
+
+/*CSS khi rê chuột vào class user-item*/
+.user-list-container > .user-item:hover {
+    background-color: mediumvioletred;
+    cursor: pointer;
+}
+
+/*CSS cho chấm tròn thể hiện trạng thái*/
+.user-item > .user-fullname::before {
+    content: ''; /*Bắt buộc phải có khi dùng*/
+    width: 14px;
+    height: 14px;
+    background-color: violet;
+    display: inline-block;
+    margin-right: 5px;
+    border-radius: 50%;
+    border: 1.2px solid white;
+}
+
+/*Trạng thái online*/
+.user-fullname.online::before {
+    background-color: #84e124;
+}
+
+/*CSS cho chat box*/
+.msg-box {
+    display: flex;
+    margin: 5px;
+}
+
+.msg-box > .msg-content {
+    background-color: mediumvioletred;
+    padding: 8px;
+    border-radius: 8px;
+    max-width: 70%;
+    border: 1px solid #1a69d5;
+    word-break: break-all;
+}
+
+.msg-box > .msg-time {
+    display: flex;
+    margin-left: 10px;
+    align-items: center;
+    font-size: 12px;
+    color: mediumvioletred;
+    opacity: 0; /*Độ trong suốt (0.0 -> 1.0)*/
+    transition: opacity 0.3s;
+    /*padding: 3px;
+    background-color: black;
+    color: white;
+    border: 8px solid white;
+    border-radius: 10px;*/
+}
+
+.msg-box:hover > .msg-time{
+    opacity: 1;
+}
+
+/*Chỉnh sửa cho tin nhắn của bản thân*/
+.msg-box.me {
+    flex-direction: row-reverse;
+}
+
+.msg-box.me > .msg-content {
+    background-color: aqua;
+    border: 1px solid #1a69d5;
+    color: violet;
+}
+
+.msg-box.me > .msg-time {
+    margin-right: 5px;
+}
+
+.msg-box-container {
+    height: 80%;
+}
+
+.input-msg-container {
+    padding: 7px;
+    background-color: rgb(176 38 244 / 0.10);
+}
+
+#input-msg {
+    outline: none;
+    resize: none;
+    width: 100%;
+    border: 1px solid mediumvioletred;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+    #input-msg:focus {
+        border: 1.5px solid mediumvioletred;
+    }
+
+.msg-box-container {
+    height: calc(100% - 74px);
+    overflow: auto;
+}
+
+.selected{
+    background-color: aqua;
+    color: white;
+}
+.selected.hover {
+    background: mediumvioletred;
+}
