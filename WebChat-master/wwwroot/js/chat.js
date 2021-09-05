@@ -45,3 +45,18 @@ connection.on("PhanHoiTinNhan", function (response) {
 	// Lăn xuống cuối
 	container.scrollTop(container[0].scrollHeight);
 });
+
+// Sự kiện khi có user online
+connection.on("GetUsers", function (response) {
+	for (var i = 0; i < response.onlineUsers.length; i++) {
+		var id = response.onlineUsers[i];
+		$(`.user-item[data-user-id=${id}] > .user-fullname`)
+			.addClass("online");
+	}
+
+	// Nếu reponse có thuộc tính disconnectedId =>user offline
+	if (response.disconnectedId) {
+		$(`.user-item[data-user-id=${response.disconnectedId}] > .user-fullname`)
+			.removeClass("online");
+	}
+});

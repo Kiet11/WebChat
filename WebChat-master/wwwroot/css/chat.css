@@ -30,21 +30,22 @@
     cursor: pointer;
 }
 
-/*CSS cho chấm tròn thể hiện trạng thái*/
-.user-item > .user-fullname::before {
-    content: ''; /*Bắt buộc phải có khi dùng*/
-    width: 14px;
-    height: 14px;
-    background-color: violet;
-    display: inline-block;
-    margin-right: 5px;
-    border-radius: 50%;
-    border: 1.2px solid white;
+
+/* Mặc định là offline */
+.user-fullname::before {
+	content: ''; /*Bắt buộc phải có khu dùng ::before */
+	width: 14px;
+	height: 14px;
+	background-color: #b7b7b7;
+	display: inline-block;
+	margin-right: 5px;
+	border-radius: 50%;
+	border: 1.2px solid white;
 }
 
-/*Trạng thái online*/
+/* Trạng thái online */
 .user-fullname.online::before {
-    background-color: #84e124;
+	background-color: violet;
 }
 
 /*CSS cho chat box*/
