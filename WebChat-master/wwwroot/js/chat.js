@@ -3,7 +3,8 @@ connection.start();
 
 var pageData = {
 	selectedUserId: null,
-	currentUserId: $("#currentUserId").val()
+	currentUserId: $("#currentUserId").val(),
+	conversation: []
 };
 
 $(".user-item").click(function (ev) {
@@ -29,32 +30,52 @@ $("#input-msg").keydown(function (ev) {
 // Sự kiện nhận tin nhắn
 connection.on("PhanHoiTinNhan", function (response) {
 	var template = `<div class="msg-box">
-						<div class="msg-content">${response.mesg}</div>
-						<div class="msg-time">${response.datetime}</div>
-					</div>`;
+                    <div class="msg-content">${response.mesg}</div>
+                    <div class="msg-time">${response.datetime}</div>
+                </div>`;
+	// Tạo phần tử html từ string ở trên
 	var element = $(template);
-
-	// Nếu đây là tin nhắn của mình gửi
-	if (pageData.currentUserId == response.sender) {
-		element.addClass("me");
-	}
-
 	var container = $(".msg-box-container");
-	container.append(element);
 
-	// Lăn xuống cuối
-	container.scrollTop(container[0].scrollHeight);
+	var convs = pageData.conversation;
+	var myId = pageData.currentUserId;
+	var selectedId = pageData.selectedUserId;
+	// Lưu lại tin nhắn cho cuộc trò chuyện hiện tại
+	// Nếu mình là người gửi tin nhắn
+	if (myId == response.sender) {
+		// Nếu đây là tin nhắn của mình gửi thì thêm class "me"
+		element.addClass("me");
+		container.append(element);
+		// Lăn xuống cuối
+		container.scrollTop(container[0].scrollHeight);
+
+		if (convs[selectedId] == null) {
+			convs[selectedId] = [];
+		}
+		convs[selectedId].push(response);
+	}
+	else if (myId == response.reciver) {
+		if (selectedId == response.sender) {
+			// Tin nhắn từ người khác gửi tới
+			container.append(element);
+			// Lăn xuống cuối
+			container.scrollTop(container[0].scrollHeight);
+		}
+
+		if (convs[response.sender] == null) {
+			convs[response.sender] = [];
+		}
+		convs[response.sender].push(response);
+	}
 });
-
-// Sự kiện khi có user online
+//Sự kiện khi có user-online
 connection.on("GetUsers", function (response) {
 	for (var i = 0; i < response.onlineUsers.length; i++) {
 		var id = response.onlineUsers[i];
 		$(`.user-item[data-user-id=${id}] > .user-fullname`)
 			.addClass("online");
-	}
 
-	// Nếu reponse có thuộc tính disconnectedId =>user offline
+	}
 	if (response.disconnectedId) {
 		$(`.user-item[data-user-id=${response.disconnectedId}] > .user-fullname`)
 			.removeClass("online");

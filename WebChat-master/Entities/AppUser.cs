@@ -26,11 +26,19 @@ namespace WebChat.Entities
         [MaxLength(200)]
         public byte[] PasswordSalt { get; set; }
 
-        [Required]
+        [Required]  // =>Not null
         [MaxLength(200)]
         public string FullName { get; set; }
 
         public DateTime? CreateDate { get; set; }   // => Allow null
 
-    }
+		public virtual ICollection<AppMessage> SendMessages { get; set; }
+		public virtual ICollection<AppMessage> RecivedMessages { get; set; }
+
+		public AppUser()
+		{
+			SendMessages = new HashSet<AppMessage>();
+			RecivedMessages = new HashSet<AppMessage>();
+		}
+	}
 }

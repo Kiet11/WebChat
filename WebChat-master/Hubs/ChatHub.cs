@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using WebChat.Entities;
 
 namespace WebChat.Hubs
 {
     public class ChatHub : Hub
+
     {
-        public async Task GuiTinNhan(string targetUserId, string message)
+		readonly WebChatDbContext db;
+
+		public ChatHub(WebChatDbContext _db)
+		{
+			db = _db;
+		}
+
+		public async Task GuiTinNhan(string targetUserId, string message)
         {
             var currentUserId = Context.UserIdentifier;
             var users = new string[] { currentUserId, targetUserId };
@@ -20,6 +29,16 @@ namespace WebChat.Hubs
                 datetime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") 
             };
             await Clients.Users(users).SendAsync("PhanHoiTinNhan", response);
+
+			AppMessage mesg = new AppMessage
+			{
+				Message = message,
+				SendAt = DateTime.Now,
+				ReciverId = Convert.ToInt32(targetUserId),
+				SenderId = Convert.ToInt32(targetUserId)
+			};
+			await db.AddAsync(mesg);
+			await db.SaveChangesAsync();
         }
 
 		static List<int> onlineUsers = new List<int>();
