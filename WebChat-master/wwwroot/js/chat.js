@@ -65,6 +65,8 @@ connection.on("PhanHoiTinNhan", function (response) {
 		if (convs[response.sender] == null) {
 			convs[response.sender] = [];
 		}
+		
+
 		convs[response.sender].push(response);
 	}
 });

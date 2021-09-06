@@ -45,7 +45,7 @@
 
 /* Trạng thái online */
 .user-fullname.online::before {
-	background-color: violet;
+	background-color: mediumvioletred;
 }
 
 /*CSS cho chat box*/
