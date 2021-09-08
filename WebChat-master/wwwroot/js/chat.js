@@ -13,6 +13,25 @@ $(".user-item").click(function (ev) {
 	$(ev.currentTarget).addClass("selected");
 	// Lưu lại id của user đc chọn
 	pageData.selectedUserId = $(ev.currentTarget).attr("data-user-id");
+
+	//Tái tạo lại đoạn chat củ theo user được chọn
+	var conversation = pageData.conversation[pageData.selectedUserId] ?? [];
+	var container = $(".msg-box-container");
+	// Xóa tin nhắn hiện tại trên màn hình
+	container.empty();
+	for (var i = 0; i < conversation.length; i++) {
+		var mesgData = conversation[i];
+		var template = `<div class="msg-box">
+                    <div class="msg-content">${mesgData.mesg}</div>
+                    <div class="msg-time">${mesgData.datetime}</div>
+                </div>`;
+		var element = $(template);
+		container.append(element);
+		if (pageData.currentUserId == mesgData.sender) {
+			element.addClass("me");
+		}
+		container.scrollTop(container[0].scrollHeight);
+	}
 });
 
 $("#input-msg").keydown(function (ev) {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using WebChat.Common;
 using WebChat.Entities;
 
 namespace WebChat.Hubs
@@ -32,7 +33,7 @@ namespace WebChat.Hubs
 
 			AppMessage mesg = new AppMessage
 			{
-				Message = message,
+				Message = AESThenHMAC.SimpleEncryptWithPassword(message, AppConfig.MESG_KEY),
 				SendAt = DateTime.Now,
 				ReciverId = Convert.ToInt32(targetUserId),
 				SenderId = Convert.ToInt32(targetUserId)
